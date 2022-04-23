@@ -160,7 +160,7 @@ var displayScores = function () {
     console.log(savedScores);
 
     var scoreDivEl = document.createElement("div");
-    scoreDivEl.className = "score-list";
+    scoreDivEl.className = "quiz-page score-list";
     var scoreHeadEl = document.createElement("h1");
     scoreHeadEl.textContent = "Name/High-Score";
 
@@ -176,9 +176,10 @@ var displayScores = function () {
         scoreListEl.appendChild(scoreItemEl);
     }
 
-    var homeBtn = document.createElement("p");
-    homeBtn.className = "quiz-btn";
-    homeBtn.innerHTML = "<a href='./index.html'>Home</a>";
+    var homeBtn = document.createElement("a");
+    homeBtn.className = "quiz-btn home-btn";
+    homeBtn.setAttribute("href", "./index.html");
+    homeBtn.textContent = "Home"
 
     scoreDivEl.appendChild(scoreHeadEl);
     scoreDivEl.appendChild(scoreListEl);

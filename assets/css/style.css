@@ -56,7 +56,8 @@ header h1 {
 }
 
 .quiz-page {
-    height: 500px;
+    margin-top: 100px;
+    height: 100px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -89,6 +90,10 @@ header h1 {
     margin: 0 auto;
 }
 
+.quizList {
+    padding-right: 40px;
+}
+
 .correct {
     color: green;
 }
@@ -113,6 +118,7 @@ header h1 {
 }
 
 .score-list {
+    margin-top: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -125,14 +131,15 @@ header h1 {
     justify-content: center;
     flex-direction: column;
     align-items: flex-start;
+    padding-left: 0;
 }
 
 .score-list ol li {
     font-size: 24px;
     padding: 5px;
+    color: black;
 }
 
-.score-list p a {
+.score-list a {
     text-decoration: none;
-    color: whitesmoke;
 }
