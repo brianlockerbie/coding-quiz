@@ -1,21 +1,27 @@
+var mainBody = document.querySelector("#main-body");
 var quizBtn = document.querySelector(".quiz-btn");
 var timer = document.querySelector("#timer");
-var time = 0;
+var time = 75;
+var questionNumber = 0;
 
 //creating array to hold objects for each quiz question
 var questions = [
     {
         "question": "Commonly used data types do NOT include:",
-        "choices": ["1. Strings", "2. Booleans", "3. Alerts", "4. Numbers"],
-        "correct-choice": "3. Alerts"
+        "choices": ["Strings", "Booleans", "Alerts", "Numbers"],
+        "correctChoice": "Alerts"
+    },
+    {
+        "question": "The condition in an if/else statement is enclosed in:",
+        "choices": ["Quotes", "Parenthesis", "Curly Brackets", "Square Brackets"],
+        "correctChoice": "Parenthesis"
     }
 ];
 
-console.log(questions[0].question);
+
 
 // clean up function
 var cleanUp = function() {
-    var mainBody = document.querySelector("#main-body")
     console.log(mainBody);
     mainBody.innerHTML = "";
 }
@@ -37,5 +43,38 @@ var timerStart = function () {
     )
 }
 
+//function to start the quiz
+var quizStart = function () {
+    cleanUp();
+    quizCreator();
+}
+
+var quizCreator = function () {
+    //create div to hold question heading and choice list
+    var quizDivEl = document.createElement("div");
+    quizDivEl.className = "quiz-page";
+
+    //create question heading
+    var quizHeadEl = document.createElement("h2");
+    quizHeadEl.textContent = questions[0].question;
+
+    //for loop to create choice list
+    var quizListEl = document.createElement("ol");
+
+    for (var i = 0; i < questions[0].choices.length; i++) {
+        var listItemEl = document.createElement("li");
+        listItemEl.className = "quiz-btn";
+        listItemEl.textContent = questions[0].choices[i];
+        quizListEl.appendChild(listItemEl);
+    }
+
+
+    quizDivEl.appendChild(quizHeadEl);
+    quizDivEl.appendChild(quizListEl);
+
+    mainBody.appendChild(quizDivEl);
+
+}
+
 // add click event listener to the quiz button to start functions
-quizBtn.addEventListener("click", timerStart);
+quizBtn.addEventListener("click", quizStart);
