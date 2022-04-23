@@ -4,6 +4,7 @@ var timer = document.querySelector("#timer");
 var time = 75;
 var questionNumber = 0;
 var timeScore = "";
+var savedScores = [];
 
 //creating array to hold objects for each quiz question
 var questions = [
@@ -58,6 +59,7 @@ var quizStart = function () {
 }
 
 var endGame = function() {
+    mainBody.removeEventListener("click", quizChecker);
     cleanUp();
     // save time as score
     timeScore = Math.max(0, time);
@@ -71,24 +73,55 @@ var endGame = function() {
     var endHeadEl = document.createElement("h2");
     endHeadEl.textContent = "All Done!"
 
+    var endPEl = document.createElement("p");
+    endPEl.innerHTML = "Thank you for taking the Coding Quiz Challenge! <br/> Your score was " + timeScore + ". Type in your initials to save your highscore!"
+
+
     // create form to store
     var endFormEl = document.createElement("form");
     endFormEl.className = "end-form";
-    endFormEl.innerHTML = "<label>Enter Initials</label><input type='text'></input><button type='button' class='quiz-btn' id='submit-score'>SUBMIT</button>"
+    endFormEl.innerHTML = "<label>Enter Initials</label><input type='text' name='initials'></input><button type='button' class='quiz-btn' id='submit-score'>SUBMIT</button>"
 
     endDivEl.appendChild(endHeadEl);
+    endDivEl.appendChild(endPEl);
     endDivEl.appendChild(endFormEl);
     mainBody.appendChild(endDivEl);
 
     var submitBtn = document.querySelector("#submit-score");
-    console.log(submitBtn);
     submitBtn.addEventListener("click", submitScore);
 }
 
 var submitScore = function () {
 
     console.log(timeScore);
-    localStorage.setItem("score", timeScore);
+    var scoreNameInput = document.querySelector("input[name='initials']").value;
+    console.log(scoreNameInput);
+
+    var savedScores = localStorage.getItem("score", savedScores);
+
+    if(!savedScores) {
+        savedScores = [];
+        return false;
+    }
+
+    savedScores = JSON.parse(savedScores);
+
+    var scoreId = savedScores.length + 1;
+    var scoreObj = {
+        name: scoreNameInput,
+        score: timeScore,
+        id: scoreId
+    }
+
+    savedScores.push(scoreObj);
+    console.log(savedScores);
+    localStorage.setItem("score", JSON.stringify(savedScores));
+
+    cleanUp();
+}
+
+var loadScores = function () {
+    localStorage.getItem("score");
 }
 
 var quizCreator = function (questionNumber) {
@@ -106,6 +139,7 @@ var quizCreator = function (questionNumber) {
     //create div to hold question heading and choice list
     var quizDivEl = document.createElement("div");
     quizDivEl.className = "quiz-page";
+    quizDivEl.setAttribute("data-clicked", "no");
 
     //create question heading
     var quizHeadEl = document.createElement("h2");
@@ -140,29 +174,36 @@ var quizCreator = function (questionNumber) {
 var quizChecker = function (event) {
     // if chosen button has data attribute of correct, say correct and set timeout to go to next question
     // if not, then remove 10 seconds from timer and move on
+
     var targetEl = event.target;
     var targetData = targetEl.getAttribute("data-correct");
+    var quizDiv = document.querySelector(".quiz-page");
+    var targetClicked = quizDiv.getAttribute("data-clicked");
+    console.log(targetClicked);
 
-    if (targetData === "correct") {
-        var correctHeader = document.createElement("h2");
-        correctHeader.className = "question-response correct";
-        correctHeader.textContent = "CORRECT!"
+    // if statement to prevent user from clicking button and running control flow multiple times
+    if (targetClicked === "no") {
+        if (targetData === "correct") {
+            quizDiv.setAttribute("data-clicked", "yes");
+            var correctHeader = document.createElement("h2");
+            correctHeader.className = "question-response correct";
+            correctHeader.textContent = "CORRECT!"
 
-        mainBody.appendChild(correctHeader);
-        questionNumber++;
-        setTimeout(quizStart, 1000);
-    } else if (targetData === "incorrect") {
-        var correctHeader = document.createElement("h2");
-        correctHeader.className = "question-response incorrect";
-        correctHeader.textContent = "INCORRECT!"
+            mainBody.appendChild(correctHeader);
+            questionNumber++;
+            setTimeout(quizStart, 1000);
+        } else if (targetData === "incorrect") {
+            quizDiv.setAttribute("data-clicked", "yes");
+            var correctHeader = document.createElement("h2");
+            correctHeader.className = "question-response incorrect";
+            correctHeader.textContent = "INCORRECT!"
 
-        mainBody.appendChild(correctHeader);
-
-        time = time - 10;
-        questionNumber++;
-        setTimeout(quizStart, 1000);
+            mainBody.appendChild(correctHeader);
+            time = time - 10;
+            questionNumber++;
+            setTimeout(quizStart, 1000);
+        }
     }
-
 };
 
 // add click event listener to the quiz button to start functions
