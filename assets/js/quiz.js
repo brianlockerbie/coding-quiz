@@ -49,16 +49,16 @@ var timerStart = function () {
     // time interval with function that will decrement time variable by 1 every second
     var timeInterval = window.setInterval(
         function () {
-            if(time > 0 && questionNumber < questions.length) {
-                timer.textContent = "Time: " + time;
-                time--;
-            } else if (time <= 0 && questionNumber < questions.length) {
-                clearInterval(timeInterval);
-                timer.textContent = "Time: " + time;
-                alert("You have run out of time!");
-                endGame();
-            }
-        }, 1000
+                if(time > 0 && questionNumber < questions.length) {
+                    timer.textContent = "Time: " + time;
+                    time--;
+                } else if (time <= 0 && questionNumber < questions.length) {
+                    clearInterval(timeInterval);
+                    timer.textContent = "Time: " + time;
+                    alert("You have run out of time!");
+                    endGame();
+                }
+            }, 1000
     )
 }
 
@@ -94,7 +94,7 @@ var endGame = function() {
     endHeadEl.textContent = "All Done!"
 
     var endPEl = document.createElement("p");
-    endPEl.innerHTML = "Thank you for taking the Coding Quiz Challenge! <br/> Your score was " + timeScore + ". Type in your initials to save your highscore!"
+    endPEl.innerHTML = "Thank you for taking the Coding Quiz Challenge! <br/> Your score was " + timeScore + ". Enter in your initials to save your highscore!"
 
 
     // create form to store
@@ -138,9 +138,7 @@ var submitScore = function (event) {
         localStorage.setItem("score", JSON.stringify(savedScores));
 
         displayScores();
-    };
-
-    
+    }; 
 }
 
 var loadScores = function () {
