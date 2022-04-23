@@ -56,8 +56,8 @@ header h1 {
 }
 
 .quiz-page {
-    margin-top: 100px;
-    height: 100px;
+    margin-top: 70px;
+    height: 100%;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -111,6 +111,11 @@ header h1 {
 
 .end-form label {
     margin: 20px;
+    font-size: 24px;
+}
+
+.end-form input {
+    border: 2px solid black;
     padding: 10px;
     font-size: 24px;
     color: var(--primary-color);
