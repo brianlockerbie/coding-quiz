@@ -67,6 +67,7 @@ header h1 {
 .quiz-page h2 {
     font-size: 42px;
     margin: 40px 0 10px 0;
+    width: 60%;
 }
 
 .quiz-page p {
@@ -129,4 +130,9 @@ header h1 {
 .score-list ol li {
     font-size: 24px;
     padding: 5px;
+}
+
+.score-list p a {
+    text-decoration: none;
+    color: whitesmoke;
 }

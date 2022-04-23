@@ -1,5 +1,5 @@
 var mainBody = document.querySelector("#main-body");
-var mainBody = document.querySelector("#display-scores");
+var scorePage = document.querySelector("#display-scores");
 var quizBtn = document.querySelector("#start-btn");
 var timer = document.querySelector("#timer");
 var time = 75;
@@ -18,6 +18,21 @@ var questions = [
         "question": "The condition in an if/else statement is enclosed in:",
         "choices": ["Quotes", "Parenthesis", "Curly Brackets", "Square Brackets"],
         "correctChoice": "Parenthesis"
+    },
+    {
+        "question": "Arrays in JavaScript can be used to store:",
+        "choices": ["Numbers and Strings", "Other Arrays", "Booleans", "All of the above"],
+        "correctChoice": "All of the above"
+    },
+    {
+        "question": "String values must be enclosed within ______ when being assigned to variables",
+        "choices": ["Commas", "Curly Brackets", "Quotes", "Parenthesis"],
+        "correctChoice": "Quotes"
+    },
+    {
+        "question": "A very useful tool used during development and debugging for printing content to the debugger is:",
+        "choices": ["JavaScript", "Terminal Bash", "for loops", "console.log"],
+        "correctChoice": "console.log"
     }
 ];
 
@@ -49,7 +64,11 @@ var timerStart = function () {
 
 // function to start the quiz
 var quizStart = function () {
+    if(questionNumber === 0) {
+        timerStart();
+    }
     cleanUp();
+
     if(questionNumber < questions.length) {
         quizCreator(questionNumber);
     } else {
@@ -81,37 +100,47 @@ var endGame = function() {
     // create form to store
     var endFormEl = document.createElement("form");
     endFormEl.className = "end-form";
-    endFormEl.innerHTML = "<label>Enter Initials</label><input type='text' name='initials'></input><button type='button' class='quiz-btn' id='submit-score'>SUBMIT</button>"
+    endFormEl.innerHTML = "<label>Enter Initials</label><input type='text' name='initials'></input><button type='submit' class='quiz-btn' id='submit-score'>SUBMIT</button>"
 
     endDivEl.appendChild(endHeadEl);
     endDivEl.appendChild(endPEl);
     endDivEl.appendChild(endFormEl);
     mainBody.appendChild(endDivEl);
 
-    var submitBtn = document.querySelector("#submit-score");
-    submitBtn.addEventListener("click", submitScore);
+    var submitBtn = document.querySelector(".end-form");
+    
+    submitBtn.addEventListener("submit", submitScore);
 }
 
-var submitScore = function () {
-
+var submitScore = function (event) {
+    event.preventDefault();
     console.log(timeScore);
     var scoreNameInput = document.querySelector("input[name='initials']").value;
     console.log(scoreNameInput);
 
-    loadScores();
+    if (!scoreNameInput) {
+        alert("The initials field cannot be blank. Please enter your initials!");
+    } else {
 
-    var scoreId = savedScores.length + 1;
-    var scoreObj = {
-        name: scoreNameInput,
-        score: timeScore,
-        id: scoreId
-    }
+        loadScores();
 
-    savedScores.push(scoreObj);
-    console.log(savedScores);
-    localStorage.setItem("score", JSON.stringify(savedScores));
+        var scoreId = savedScores.length + 1;
+        var scoreObj = {
+            name: scoreNameInput,
+            score: timeScore,
+            id: scoreId
+        }
 
-    displayScores();
+        savedScores.push(scoreObj);
+        // sort by higher score
+        savedScores.sort(function(a,b) {return (b.score - a.score)})
+        console.log(savedScores);
+        localStorage.setItem("score", JSON.stringify(savedScores));
+
+        displayScores();
+    };
+
+    
 }
 
 var loadScores = function () {
@@ -138,7 +167,8 @@ var displayScores = function () {
 
     var scoreListEl = document.createElement("ol");
 
-    for (var i = 0; i < 11; i++) {
+    // create highscore list up to max of 10 list items
+    for (var i = 0; i < Math.min(10, savedScores.length); i++) {
         var scoreItemEl = document.createElement("li");
         var name = savedScores[i].name
         var score = savedScores[i].score
@@ -146,16 +176,19 @@ var displayScores = function () {
         scoreListEl.appendChild(scoreItemEl);
     }
 
+    var homeBtn = document.createElement("p");
+    homeBtn.className = "quiz-btn";
+    homeBtn.innerHTML = "<a href='./index.html'>Home</a>";
+
     scoreDivEl.appendChild(scoreHeadEl);
     scoreDivEl.appendChild(scoreListEl);
+    scoreDivEl.appendChild(homeBtn);
     mainBody.appendChild(scoreDivEl);
 }
 
 var quizCreator = function (questionNumber) {
     //start timer only on first question
-    if(questionNumber === 0) {
-        timerStart();
-    }
+    
 
     //prevent next questions from loading if time has run out
     if(time === 0) {
