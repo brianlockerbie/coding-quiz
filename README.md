@@ -31,3 +31,6 @@ WHEN the game is over
 THEN I can save my initials and score
 
 ## Screenshot: 
+
+
+<img src="./assets/images/code-quiz.png">
