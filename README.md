@@ -1,23 +1,20 @@
-<h1 align="center">Code Quiz App :memo: </h1> 
-<p align="center">Module #4 - Web APIs</p>
+<h1 align="center">Coding Quiz</h1> 
 
-## Live Demo:  https://brianlockerbie.github.io/code-quiz-app
+## Description
+This Coding Quiz application gives you a limited amount of time to answer 5 multiple choice questions regarding coding.
 
-## Description:
-This Code Quiz App gives you a limited amount of time to answer 5 multiple choice questions regarding coding.
-
-## Built With:
+## Technologies
 * HTML
 * CSS
 * JavaScript
 
 
-## User Story:
+## User Story
 AS A coding boot camp student
 I WANT to take a timed quiz on JavaScript fundamentals that stores high scores
 SO THAT I can gauge my progress compared to my peers
 
-## Acceptance Criteria:
+## Acceptance Criteria
 GIVEN I am taking a code quiz
 WHEN I click the start button
 THEN a timer starts and I am presented with a question
@@ -29,6 +26,9 @@ WHEN all questions are answered or the timer reaches 0
 THEN the game is over
 WHEN the game is over
 THEN I can save my initials and score
+
+## Live Demo  
+Live link [here](https://brianlockerbie.github.io/coding-quiz)
 
 ## Screenshot: 
 
